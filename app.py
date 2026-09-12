@@ -111,57 +111,58 @@ destination_suggestions = [
 
 _, input_center, _ = st.columns([1, 3, 1])
 with input_center:
-    c1, c2 = st.columns(2)
+    with st.form("trip_form", clear_on_submit=False):
+        c1, c2 = st.columns(2)
 
-    with c1:
-        st.markdown("**From**")
-        origin = st.selectbox(
-            "Origin location",
-            options=origin_suggestions,
-            index=None,
-            placeholder="Type or select a city/country...",
-            key="origin_location",
-            accept_new_options=True,
-            label_visibility="collapsed",
-        )
-        origin = (origin or "").strip()
+        with c1:
+            st.markdown("**From**")
+            origin = st.selectbox(
+                "Origin location",
+                options=origin_suggestions,
+                index=None,
+                placeholder="Type or select a city/country...",
+                key="origin_location",
+                accept_new_options=True,
+                label_visibility="collapsed",
+            )
+            origin = (origin or "").strip()
 
-    with c2:
-        st.markdown("**Going to**")
-        destination = st.selectbox(
-            "Destination location",
-            options=destination_suggestions,
-            index=None,
-            placeholder="Type or select a city/country...",
-            key="destination_location",
-            accept_new_options=True,
-            label_visibility="collapsed",
-        )
-        destination = (destination or "").strip()
+        with c2:
+            st.markdown("**Going to**")
+            destination = st.selectbox(
+                "Destination location",
+                options=destination_suggestions,
+                index=None,
+                placeholder="Type or select a city/country...",
+                key="destination_location",
+                accept_new_options=True,
+                label_visibility="collapsed",
+            )
+            destination = (destination or "").strip()
 
-    c1, c2, c3 = st.columns(3)
-    with c1:
-        travelers = st.number_input("Travelers", 1, 20, 2)
-    with c2:
-        duration = st.number_input("Trip length (days)", 1, 30, 5)
-    with c3:
-        start_date = st.date_input(
-            "Start date",
-            date.today() + timedelta(days=3),
-            min_value=date.today(),
-        )
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            travelers = st.number_input("Travelers", 1, 20, 2)
+        with c2:
+            duration = st.number_input("Trip length (days)", 1, 30, 5)
+        with c3:
+            start_date = st.date_input(
+                "Start date",
+                date.today() + timedelta(days=3),
+                min_value=date.today(),
+            )
 
-    c1, c2 = st.columns(2)
-    with c1:
-        budget = st.number_input("Total budget (PKR)", 0, value=500000, step=10000)
-    with c2:
-        interests = st.multiselect(
-            "Interests",
-            ["Culture", "Food", "History", "Nature", "Shopping", "Adventure", "Relaxation"],
-            default=["Culture", "Food"],
-        )
+        c1, c2 = st.columns(2)
+        with c1:
+            budget = st.number_input("Total budget (PKR)", 0, value=500000, step=10000)
+        with c2:
+            interests = st.multiselect(
+                "Interests",
+                ["Culture", "Food", "History", "Nature", "Shopping", "Adventure", "Relaxation"],
+                default=["Culture", "Food"],
+            )
 
-    build = st.button("🚀  Build My Trip", use_container_width=True, type="primary")
+        build = st.form_submit_button("🚀  Build My Trip", use_container_width=True)
 
 if build:
     if not origin:
