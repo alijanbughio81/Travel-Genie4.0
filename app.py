@@ -68,6 +68,8 @@ div[data-testid="stTabs"] button[aria-selected="true"] *{color:#0B57D0!important
 div[data-testid="stTabs"] [data-baseweb="tab-list"]{background:#F5F8FC!important}
 .stApp .stButton button{background:#246BFE!important;border:0!important;color:#FFFFFF!important;border-radius:11px;font-weight:700}
 .stApp .stButton button *{color:#FFFFFF!important}
+.stApp [data-testid="stFormSubmitButton"] button{background:#246BFE!important;border:0!important;color:#FFFFFF!important;border-radius:11px;font-weight:700}
+.stApp [data-testid="stFormSubmitButton"] button *{color:#FFFFFF!important}
 .stApp [data-testid="stAlert"]{color:#123D2A!important}
 .stApp [data-testid="stAlert"] *{color:#123D2A!important}
 .stApp label,.stApp [data-testid="stCaptionContainer"] *{color:#111827!important}
