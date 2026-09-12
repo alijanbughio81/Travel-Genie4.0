@@ -112,6 +112,7 @@ with input_center:
             placeholder="e.g. Karachi, Pakistan or India",
             help="Type any city or country. You are not limited to the suggestions."
         ).strip()
+        st.caption("Suggestions: Karachi, Lahore, Islamabad, Hyderabad, Dubai, Doha, Istanbul")
 
     with c2:
         # Free-text destination input: users can type ANY destination.
@@ -121,6 +122,7 @@ with input_center:
             placeholder="e.g. India, Tashkent, Uzbekistan",
             help="Type any city or country. You are not limited to the suggestions."
         ).strip()
+        st.caption("Suggestions: Istanbul, Dubai, London, Paris, Rome, Baku, Bangkok, Tokyo, New York")
 
     c1, c2, c3 = st.columns(3)
     with c1:
