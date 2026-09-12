@@ -105,49 +105,22 @@ _, input_center, _ = st.columns([1, 3, 1])
 with input_center:
     c1, c2 = st.columns(2)
     with c1:
-        origin_options = [
-            "Karachi, Pakistan",
-            "Lahore, Pakistan",
-            "Islamabad, Pakistan",
-            "Hyderabad, Pakistan",
-            "Multan, Pakistan",
-            "Peshawar, Pakistan",
-            "Quetta, Pakistan",
-            "Dubai, UAE",
-            "Doha, Qatar",
-            "Istanbul, Turkey",
-            "Other / Enter manually",
-        ]
-        origin_choice = st.selectbox("From", origin_options, index=0)
-        if origin_choice == "Other / Enter manually":
-            origin = st.text_input("Enter origin", placeholder="e.g. Sukkur, Pakistan")
-        else:
-            origin = origin_choice
+        # Free-text location input: users can type ANY city or country.
+        origin = st.text_input(
+            "From",
+            value="Karachi, Pakistan",
+            placeholder="e.g. Karachi, Pakistan or India",
+            help="Type any city or country. You are not limited to the suggestions."
+        ).strip()
 
     with c2:
-        destination_options = [
-            "Istanbul, Turkey",
-            "Dubai, UAE",
-            "London, UK",
-            "Paris, France",
-            "Rome, Italy",
-            "Baku, Azerbaijan",
-            "Bangkok, Thailand",
-            "Kuala Lumpur, Malaysia",
-            "Maldives",
-            "Doha, Qatar",
-            "Singapore",
-            "Tokyo, Japan",
-            "New York, USA",
-            "Barcelona, Spain",
-            "Cairo, Egypt",
-            "Other / Enter manually",
-        ]
-        destination_choice = st.selectbox("Going to", destination_options, index=0)
-        if destination_choice == "Other / Enter manually":
-            destination = st.text_input("Enter destination", placeholder="e.g. Tashkent, Uzbekistan")
-        else:
-            destination = destination_choice
+        # Free-text destination input: users can type ANY destination.
+        destination = st.text_input(
+            "Going to",
+            value="Istanbul, Turkey",
+            placeholder="e.g. India, Tashkent, Uzbekistan",
+            help="Type any city or country. You are not limited to the suggestions."
+        ).strip()
 
     c1, c2, c3 = st.columns(3)
     with c1:
@@ -168,6 +141,12 @@ with input_center:
     build = st.button("🚀  Build My Trip", use_container_width=True, type="primary")
 
 if build:
+    if not origin:
+        st.error("Please enter an origin city or country.")
+        st.stop()
+    if not destination:
+        st.error("Please enter a destination city or country.")
+        st.stop()
     if not os.getenv("GROQ_API_KEY"):
         st.error("GROQ_API_KEY is not configured. Add it to Streamlit Secrets.")
         st.stop()
