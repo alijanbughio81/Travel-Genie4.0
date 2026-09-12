@@ -107,7 +107,28 @@ with input_center:
     with c1:
         origin = st.text_input("From", "Karachi, Pakistan")
     with c2:
-        destination = st.text_input("Going to", "Istanbul, Turkey")
+        destination_options = [
+            "Istanbul, Turkey",
+            "Dubai, UAE",
+            "London, UK",
+            "Paris, France",
+            "Rome, Italy",
+            "Baku, Azerbaijan",
+            "Bangkok, Thailand",
+            "Kuala Lumpur, Malaysia",
+            "Maldives",
+            "Doha, Qatar",
+            "Singapore",
+            "Tokyo, Japan",
+            "New York, USA",
+            "Barcelona, Spain",
+            "Cairo, Egypt",
+        ]
+        destination = st.selectbox(
+            "Going to",
+            destination_options,
+            index=0,
+        )
 
     c1, c2, c3 = st.columns(3)
     with c1:
