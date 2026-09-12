@@ -58,8 +58,27 @@ section[data-testid="stSidebar"] *{color:#F4F7FB!important}
 .stApp [data-baseweb="select"]>div{background:white!important;color:#10233F!important;border-color:#B8C4D6!important}
 .stApp [data-baseweb="select"] *{color:#10233F!important}
 .stApp [data-baseweb="select"] input{color:#10233F!important}
-.stApp [data-testid="stTabs"] button{color:#10233F!important;font-weight:700}
-.stApp [data-testid="stTabs"] button[aria-selected="true"]{color:#165DCC!important}
+div[data-testid="stTabs"] button,
+div[data-testid="stTabs"] button *,
+div[data-testid="stTabs"] [role="tab"],
+div[data-testid="stTabs"] [role="tab"] *,
+[data-baseweb="tab-list"] button,
+[data-baseweb="tab-list"] button *{
+    color:#10233F!important;
+    opacity:1!important;
+    font-weight:700!important;
+}
+div[data-testid="stTabs"] button[aria-selected="true"],
+div[data-testid="stTabs"] button[aria-selected="true"] *{
+    color:#165DCC!important;
+    opacity:1!important;
+}
+div[data-testid="stTabs"] [data-baseweb="tab-list"]{
+    background:#F5F8FC!important;
+}
+div[data-testid="stTabs"] [data-baseweb="tab-highlight"]{
+    background:#246BFE!important;
+}
 
 /* Buttons: blue surface + white text */
 .stApp .stButton button{background:#246BFE!important;border:0!important;color:white!important;border-radius:11px;font-weight:700}
