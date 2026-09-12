@@ -105,24 +105,28 @@ _, input_center, _ = st.columns([1, 3, 1])
 with input_center:
     c1, c2 = st.columns(2)
     with c1:
-        # Free-text location input: users can type ANY city or country.
-        origin = st.text_input(
-            "From",
-            value="Karachi, Pakistan",
-            placeholder="e.g. Karachi, Pakistan or India",
-            help="Type any city or country. You are not limited to the suggestions."
-        ).strip()
-        st.caption("Suggestions: Karachi, Lahore, Islamabad, Hyderabad, Dubai, Doha, Istanbul")
+        origin_options = [
+            "Karachi, Pakistan", "Lahore, Pakistan", "Islamabad, Pakistan",
+            "Hyderabad, Pakistan", "Multan, Pakistan", "Peshawar, Pakistan",
+            "Quetta, Pakistan", "Dubai, UAE", "Doha, Qatar", "Istanbul, Turkey"
+        ]
+        origin = st.selectbox(
+            "From", origin_options, index=0, accept_new_options=True,
+            help="Choose a suggestion or type any city/country, such as India."
+        )
 
     with c2:
-        # Free-text destination input: users can type ANY destination.
-        destination = st.text_input(
-            "Going to",
-            value="Istanbul, Turkey",
-            placeholder="e.g. India, Tashkent, Uzbekistan",
-            help="Type any city or country. You are not limited to the suggestions."
-        ).strip()
-        st.caption("Suggestions: Istanbul, Dubai, London, Paris, Rome, Baku, Bangkok, Tokyo, New York")
+        destination_options = [
+            "Istanbul, Turkey", "Dubai, UAE", "London, UK", "Paris, France",
+            "Rome, Italy", "Baku, Azerbaijan", "Bangkok, Thailand",
+            "Kuala Lumpur, Malaysia", "Maldives", "Doha, Qatar",
+            "Singapore", "Tokyo, Japan", "New York, USA", "Barcelona, Spain",
+            "Cairo, Egypt"
+        ]
+        destination = st.selectbox(
+            "Going to", destination_options, index=0, accept_new_options=True,
+            help="Choose a suggestion or type any destination, such as India or Tashkent."
+        )
 
     c1, c2, c3 = st.columns(3)
     with c1:
