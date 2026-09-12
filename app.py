@@ -117,53 +117,66 @@ with input_center:
 
     with c1:
         st.markdown("**From**")
-        origin_options = origin_suggestions + [LOCATION_CUSTOM]
-        origin_default = st.session_state.get("origin", "Karachi, Pakistan")
-        origin_index = origin_options.index(origin_default) if origin_default in origin_options else len(origin_options) - 1
+        origin_suggestions = [
+            "Select a suggested location",
+            "Karachi, Pakistan", "Lahore, Pakistan", "Islamabad, Pakistan",
+            "Hyderabad, Pakistan", "Multan, Pakistan", "Peshawar, Pakistan",
+            "Quetta, Pakistan", "Dubai, UAE", "Doha, Qatar", "Istanbul, Turkey"
+        ]
+
+        # User can either type a location OR select one from the dropdown.
+        if "origin_select" not in st.session_state:
+            st.session_state.origin_select = "Select a suggested location"
+        if "origin_manual" not in st.session_state:
+            st.session_state.origin_manual = ""
+
+        origin_manual = st.text_input(
+            "Type origin",
+            key="origin_manual",
+            placeholder="Type any city or country...",
+        ).strip()
         origin_choice = st.selectbox(
-            "Origin suggestions",
-            origin_options,
-            index=origin_index,
-            key="origin_choice",
-            label_visibility="collapsed",
+            "Or select from suggestions",
+            origin_suggestions,
+            key="origin_select",
         )
 
-        if origin_choice == LOCATION_CUSTOM:
-            origin = st.text_input(
-                "Custom origin",
-                value=st.session_state.get("origin_custom", ""),
-                key="origin_custom",
-                placeholder="Type any city or country, e.g. India",
-            ).strip()
-            st.session_state.origin = origin
-        else:
-            origin = origin_choice
-            st.session_state.origin = origin
+        # Manual input takes priority; otherwise use the dropdown selection.
+        origin = origin_manual if origin_manual else (
+            "" if origin_choice == "Select a suggested location" else origin_choice
+        )
 
     with c2:
         st.markdown("**Going to**")
-        destination_options = destination_suggestions + [LOCATION_CUSTOM]
-        destination_default = st.session_state.get("destination", "Istanbul, Turkey")
-        destination_index = destination_options.index(destination_default) if destination_default in destination_options else len(destination_options) - 1
+        destination_suggestions = [
+            "Select a suggested location",
+            "Istanbul, Turkey", "Dubai, UAE", "London, UK", "Paris, France",
+            "Rome, Italy", "Baku, Azerbaijan", "Bangkok, Thailand",
+            "Kuala Lumpur, Malaysia", "Doha, Qatar", "Singapore",
+            "Tokyo, Japan", "New York, USA", "Barcelona, Spain", "Cairo, Egypt"
+        ]
+
+        # User can either type a location OR select one from the dropdown.
+        if "destination_select" not in st.session_state:
+            st.session_state.destination_select = "Select a suggested location"
+        if "destination_manual" not in st.session_state:
+            st.session_state.destination_manual = ""
+
+        destination_manual = st.text_input(
+            "Type destination",
+            key="destination_manual",
+            placeholder="Type any city or country...",
+        ).strip()
         destination_choice = st.selectbox(
-            "Destination suggestions",
-            destination_options,
-            index=destination_index,
-            key="destination_choice",
-            label_visibility="collapsed",
+            "Or select from suggestions",
+            destination_suggestions,
+            key="destination_select",
         )
 
-        if destination_choice == LOCATION_CUSTOM:
-            destination = st.text_input(
-                "Custom destination",
-                value=st.session_state.get("destination_custom", ""),
-                key="destination_custom",
-                placeholder="Type any city or country, e.g. India",
-            ).strip()
-            st.session_state.destination = destination
-        else:
-            destination = destination_choice
-            st.session_state.destination = destination
+        # Manual input takes priority; otherwise use the dropdown selection.
+        destination = destination_manual if destination_manual else (
+            "" if destination_choice == "Select a suggested location" else destination_choice
+        )
 
     c1, c2, c3 = st.columns(3)
     with c1:
