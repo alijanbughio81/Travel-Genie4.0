@@ -105,7 +105,25 @@ _, input_center, _ = st.columns([1, 3, 1])
 with input_center:
     c1, c2 = st.columns(2)
     with c1:
-        origin = st.text_input("From", "Karachi, Pakistan")
+        origin_options = [
+            "Karachi, Pakistan",
+            "Lahore, Pakistan",
+            "Islamabad, Pakistan",
+            "Hyderabad, Pakistan",
+            "Multan, Pakistan",
+            "Peshawar, Pakistan",
+            "Quetta, Pakistan",
+            "Dubai, UAE",
+            "Doha, Qatar",
+            "Istanbul, Turkey",
+            "Other / Enter manually",
+        ]
+        origin_choice = st.selectbox("From", origin_options, index=0)
+        if origin_choice == "Other / Enter manually":
+            origin = st.text_input("Enter origin", placeholder="e.g. Sukkur, Pakistan")
+        else:
+            origin = origin_choice
+
     with c2:
         destination_options = [
             "Istanbul, Turkey",
@@ -123,12 +141,13 @@ with input_center:
             "New York, USA",
             "Barcelona, Spain",
             "Cairo, Egypt",
+            "Other / Enter manually",
         ]
-        destination = st.selectbox(
-            "Going to",
-            destination_options,
-            index=0,
-        )
+        destination_choice = st.selectbox("Going to", destination_options, index=0)
+        if destination_choice == "Other / Enter manually":
+            destination = st.text_input("Enter destination", placeholder="e.g. Tashkent, Uzbekistan")
+        else:
+            destination = destination_choice
 
     c1, c2, c3 = st.columns(3)
     with c1:
