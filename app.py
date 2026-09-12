@@ -26,7 +26,7 @@ html,body,[class*="css"]{font-family:'DM Sans',sans-serif}
 .block-container{max-width:1380px;padding:1.6rem 2.2rem 3rem}
 
 /* Dark surfaces: white text */
-section[data-testid="stSidebar"]{background:#0D1B32}
+section[data-testid="stSidebar"]{display:none}
 section[data-testid="stSidebar"] *{color:#F4F7FB!important}
 .hero{background:linear-gradient(110deg,#0D1B32,#153A78 60%,#246BFE);border-radius:26px;padding:2.5rem 2.7rem;color:white!important;margin-bottom:1.5rem;position:relative;overflow:hidden}
 .hero *{color:white!important}
@@ -79,6 +79,28 @@ div[data-testid="stTabs"] [data-baseweb="tab-list"]{
 div[data-testid="stTabs"] [data-baseweb="tab-highlight"]{
     background:#246BFE!important;
 }
+.input-panel{
+    max-width:900px;
+    margin:1.4rem auto .35rem;
+    text-align:center;
+    background:white;
+    border:1px solid #E5EAF1;
+    border-radius:20px 20px 0 0;
+    padding:1.25rem 1.5rem .7rem;
+    box-shadow:0 5px 18px rgba(24,49,87,.045);
+}
+.input-panel-title{
+    color:#10233F!important;
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-size:1.35rem;
+    font-weight:800;
+}
+.input-panel-subtitle{
+    color:#52647D!important;
+    font-size:.9rem;
+    margin-top:.25rem;
+}
+
 
 /* Buttons: blue surface + white text */
 .stApp .stButton button{background:#246BFE!important;border:0!important;color:white!important;border-radius:11px;font-weight:700}
@@ -108,19 +130,37 @@ st.markdown("""<div class="hero">
 <p>Flights, stays, experiences, budget and a day-by-day itinerary — coordinated by AI agents.</p>
 </div>""", unsafe_allow_html=True)
 
-with st.sidebar:
-    st.markdown("## ✈️ TravelGenie")
-    st.caption("Build your next trip")
-    st.divider()
-    origin = st.text_input("From", "Karachi, Pakistan")
-    destination = st.text_input("Going to", "Istanbul, Turkey")
-    travelers = st.number_input("Travelers", 1, 20, 2)
-    duration = st.number_input("Trip length (days)", 1, 30, 5)
-    start_date = st.date_input("Start date", date.today()+timedelta(days=3), min_value=date.today())
-    budget = st.number_input("Total budget (PKR)", 0, value=500000, step=10000)
-    interests = st.multiselect("Interests",
-        ["Culture","Food","History","Nature","Shopping","Adventure","Relaxation"],
-        default=["Culture","Food"])
+st.markdown("""
+<div class="input-panel">
+  <div class="input-panel-title">✈️ Build your trip</div>
+  <div class="input-panel-subtitle">Enter your travel details below</div>
+</div>
+""", unsafe_allow_html=True)
+
+_, input_center, _ = st.columns([1, 3, 1])
+with input_center:
+    c1, c2 = st.columns(2)
+    with c1:
+        origin = st.text_input("From", "Karachi, Pakistan")
+    with c2:
+        destination = st.text_input("Going to", "Istanbul, Turkey")
+
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        travelers = st.number_input("Travelers", 1, 20, 2)
+    with c2:
+        duration = st.number_input("Trip length (days)", 1, 30, 5)
+    with c3:
+        start_date = st.date_input("Start date", date.today()+timedelta(days=3), min_value=date.today())
+
+    c1, c2 = st.columns(2)
+    with c1:
+        budget = st.number_input("Total budget (PKR)", 0, value=500000, step=10000)
+    with c2:
+        interests = st.multiselect("Interests",
+            ["Culture","Food","History","Nature","Shopping","Adventure","Relaxation"],
+            default=["Culture","Food"])
+
     build = st.button("🚀  Build My Trip", use_container_width=True, type="primary")
 
 if build:
