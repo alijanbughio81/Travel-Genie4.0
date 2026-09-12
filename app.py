@@ -94,8 +94,8 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Location selection with dropdown suggestions.
-# Users can select a suggested location or choose "Other" to type any city/country.
+# Location fields: empty on first visit, with searchable suggestions.
+# Users can either pick a suggestion or type any custom city/country directly.
 origin_suggestions = [
     "Karachi, Pakistan", "Lahore, Pakistan", "Islamabad, Pakistan",
     "Hyderabad, Pakistan", "Multan, Pakistan", "Peshawar, Pakistan",
@@ -109,74 +109,35 @@ destination_suggestions = [
     "Tokyo, Japan", "New York, USA", "Barcelona, Spain", "Cairo, Egypt"
 ]
 
-LOCATION_CUSTOM = "✏️ Other — type a custom location"
-
 _, input_center, _ = st.columns([1, 3, 1])
 with input_center:
     c1, c2 = st.columns(2)
 
     with c1:
         st.markdown("**From**")
-        origin_suggestions = [
-            "Select a suggested location",
-            "Karachi, Pakistan", "Lahore, Pakistan", "Islamabad, Pakistan",
-            "Hyderabad, Pakistan", "Multan, Pakistan", "Peshawar, Pakistan",
-            "Quetta, Pakistan", "Dubai, UAE", "Doha, Qatar", "Istanbul, Turkey"
-        ]
-
-        # User can either type a location OR select one from the dropdown.
-        if "origin_select" not in st.session_state:
-            st.session_state.origin_select = "Select a suggested location"
-        if "origin_manual" not in st.session_state:
-            st.session_state.origin_manual = ""
-
-        origin_manual = st.text_input(
-            "Type origin",
-            key="origin_manual",
-            placeholder="Type any city or country...",
-        ).strip()
-        origin_choice = st.selectbox(
-            "Or select from suggestions",
-            origin_suggestions,
-            key="origin_select",
+        origin = st.selectbox(
+            "Origin location",
+            options=origin_suggestions,
+            index=None,
+            placeholder="Type or select a city/country...",
+            key="origin_location",
+            accept_new_options=True,
+            label_visibility="collapsed",
         )
-
-        # Manual input takes priority; otherwise use the dropdown selection.
-        origin = origin_manual if origin_manual else (
-            "" if origin_choice == "Select a suggested location" else origin_choice
-        )
+        origin = (origin or "").strip()
 
     with c2:
         st.markdown("**Going to**")
-        destination_suggestions = [
-            "Select a suggested location",
-            "Istanbul, Turkey", "Dubai, UAE", "London, UK", "Paris, France",
-            "Rome, Italy", "Baku, Azerbaijan", "Bangkok, Thailand",
-            "Kuala Lumpur, Malaysia", "Doha, Qatar", "Singapore",
-            "Tokyo, Japan", "New York, USA", "Barcelona, Spain", "Cairo, Egypt"
-        ]
-
-        # User can either type a location OR select one from the dropdown.
-        if "destination_select" not in st.session_state:
-            st.session_state.destination_select = "Select a suggested location"
-        if "destination_manual" not in st.session_state:
-            st.session_state.destination_manual = ""
-
-        destination_manual = st.text_input(
-            "Type destination",
-            key="destination_manual",
-            placeholder="Type any city or country...",
-        ).strip()
-        destination_choice = st.selectbox(
-            "Or select from suggestions",
-            destination_suggestions,
-            key="destination_select",
+        destination = st.selectbox(
+            "Destination location",
+            options=destination_suggestions,
+            index=None,
+            placeholder="Type or select a city/country...",
+            key="destination_location",
+            accept_new_options=True,
+            label_visibility="collapsed",
         )
-
-        # Manual input takes priority; otherwise use the dropdown selection.
-        destination = destination_manual if destination_manual else (
-            "" if destination_choice == "Select a suggested location" else destination_choice
-        )
+        destination = (destination or "").strip()
 
     c1, c2, c3 = st.columns(3)
     with c1:
