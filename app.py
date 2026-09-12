@@ -105,49 +105,59 @@ _, input_center, _ = st.columns([1, 3, 1])
 with input_center:
     c1, c2 = st.columns(2)
     with c1:
-        st.markdown("**From**")
         origin_suggestions = [
-            "Karachi, Pakistan", "Lahore, Pakistan", "Islamabad, Pakistan",
-            "Hyderabad, Pakistan", "Multan, Pakistan", "Peshawar, Pakistan",
-            "Quetta, Pakistan", "Dubai, UAE", "Doha, Qatar", "Istanbul, Turkey"
+            "Karachi, Pakistan",
+            "Lahore, Pakistan",
+            "Islamabad, Pakistan",
+            "Hyderabad, Pakistan",
+            "Multan, Pakistan",
+            "Peshawar, Pakistan",
+            "Quetta, Pakistan",
+            "Dubai, UAE",
+            "Doha, Qatar",
+            "Istanbul, Turkey",
         ]
-        if "origin" not in st.session_state:
-            st.session_state.origin = "Karachi, Pakistan"
         origin = st.text_input(
-            "Origin location",
-            key="origin",
+            "From",
+            value="Karachi, Pakistan",
             placeholder="Type any city or country, e.g. India",
-            label_visibility="collapsed"
+            key="origin_location",
         ).strip()
-        st.caption("Suggestions — click one or type your own:")
-        origin_cols = st.columns(3)
-        for i, suggestion in enumerate(origin_suggestions):
-            if origin_cols[i % 3].button(suggestion, key=f"origin_suggestion_{i}", use_container_width=True):
-                st.session_state.origin = suggestion
-                st.rerun()
+        with st.popover("▾ Suggestions", use_container_width=True):
+            for suggestion in origin_suggestions:
+                if st.button(suggestion, key=f"origin_suggestion_{suggestion}", use_container_width=True):
+                    st.session_state.origin_location = suggestion
+                    st.rerun()
 
     with c2:
-        st.markdown("**Going to**")
         destination_suggestions = [
-            "Istanbul, Turkey", "Dubai, UAE", "London, UK", "Paris, France",
-            "Rome, Italy", "Baku, Azerbaijan", "Bangkok, Thailand",
-            "Kuala Lumpur, Malaysia", "Doha, Qatar", "Singapore",
-            "Tokyo, Japan", "New York, USA", "Barcelona, Spain", "Cairo, Egypt"
+            "Istanbul, Turkey",
+            "Dubai, UAE",
+            "London, UK",
+            "Paris, France",
+            "Rome, Italy",
+            "Baku, Azerbaijan",
+            "Bangkok, Thailand",
+            "Kuala Lumpur, Malaysia",
+            "Maldives",
+            "Doha, Qatar",
+            "Singapore",
+            "Tokyo, Japan",
+            "New York, USA",
+            "Barcelona, Spain",
+            "Cairo, Egypt",
         ]
-        if "destination" not in st.session_state:
-            st.session_state.destination = "Istanbul, Turkey"
         destination = st.text_input(
-            "Destination location",
-            key="destination",
+            "Going to",
+            value="Istanbul, Turkey",
             placeholder="Type any city or country, e.g. India",
-            label_visibility="collapsed"
+            key="destination_location",
         ).strip()
-        st.caption("Suggestions — click one or type your own:")
-        destination_cols = st.columns(3)
-        for i, suggestion in enumerate(destination_suggestions):
-            if destination_cols[i % 3].button(suggestion, key=f"destination_suggestion_{i}", use_container_width=True):
-                st.session_state.destination = suggestion
-                st.rerun()
+        with st.popover("▾ Suggestions", use_container_width=True):
+            for suggestion in destination_suggestions:
+                if st.button(suggestion, key=f"destination_suggestion_{suggestion}", use_container_width=True):
+                    st.session_state.destination_location = suggestion
+                    st.rerun()
 
     c1, c2, c3 = st.columns(3)
     with c1:
@@ -168,12 +178,6 @@ with input_center:
     build = st.button("🚀  Build My Trip", use_container_width=True, type="primary")
 
 if build:
-    if not origin:
-        st.error("Please enter an origin city or country.")
-        st.stop()
-    if not destination:
-        st.error("Please enter a destination city or country.")
-        st.stop()
     if not os.getenv("GROQ_API_KEY"):
         st.error("GROQ_API_KEY is not configured. Add it to Streamlit Secrets.")
         st.stop()
