@@ -94,17 +94,22 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# IMPORTANT FIX:
-# Do not assign to st.session_state.origin or destination after the corresponding
-# st.text_input has already been instantiated. The suggestion buttons use callbacks,
-# which run before the next script rerun and safely update the widget state.
-def set_origin(value):
-    st.session_state.origin = value
+# Location selection with dropdown suggestions.
+# Users can select a suggested location or choose "Other" to type any city/country.
+origin_suggestions = [
+    "Karachi, Pakistan", "Lahore, Pakistan", "Islamabad, Pakistan",
+    "Hyderabad, Pakistan", "Multan, Pakistan", "Peshawar, Pakistan",
+    "Quetta, Pakistan", "Dubai, UAE", "Doha, Qatar", "Istanbul, Turkey"
+]
 
+destination_suggestions = [
+    "Istanbul, Turkey", "Dubai, UAE", "London, UK", "Paris, France",
+    "Rome, Italy", "Baku, Azerbaijan", "Bangkok, Thailand",
+    "Kuala Lumpur, Malaysia", "Doha, Qatar", "Singapore",
+    "Tokyo, Japan", "New York, USA", "Barcelona, Spain", "Cairo, Egypt"
+]
 
-def set_destination(value):
-    st.session_state.destination = value
-
+LOCATION_CUSTOM = "✏️ Other — type a custom location"
 
 _, input_center, _ = st.columns([1, 3, 1])
 with input_center:
@@ -112,60 +117,53 @@ with input_center:
 
     with c1:
         st.markdown("**From**")
-        origin_suggestions = [
-            "Karachi, Pakistan", "Lahore, Pakistan", "Islamabad, Pakistan",
-            "Hyderabad, Pakistan", "Multan, Pakistan", "Peshawar, Pakistan",
-            "Quetta, Pakistan", "Dubai, UAE", "Doha, Qatar", "Istanbul, Turkey"
-        ]
-        if "origin" not in st.session_state:
-            st.session_state.origin = "Karachi, Pakistan"
-
-        origin = st.text_input(
-            "Origin location",
-            key="origin",
-            placeholder="Type any city or country, e.g. India",
+        origin_options = origin_suggestions + [LOCATION_CUSTOM]
+        origin_default = st.session_state.get("origin", "Karachi, Pakistan")
+        origin_index = origin_options.index(origin_default) if origin_default in origin_options else len(origin_options) - 1
+        origin_choice = st.selectbox(
+            "Origin suggestions",
+            origin_options,
+            index=origin_index,
+            key="origin_choice",
             label_visibility="collapsed",
-        ).strip()
+        )
 
-        st.caption("Suggestions — click one or type your own:")
-        origin_cols = st.columns(3)
-        for i, suggestion in enumerate(origin_suggestions):
-            origin_cols[i % 3].button(
-                suggestion,
-                key=f"origin_suggestion_{i}",
-                use_container_width=True,
-                on_click=set_origin,
-                args=(suggestion,),
-            )
+        if origin_choice == LOCATION_CUSTOM:
+            origin = st.text_input(
+                "Custom origin",
+                value=st.session_state.get("origin_custom", ""),
+                key="origin_custom",
+                placeholder="Type any city or country, e.g. India",
+            ).strip()
+            st.session_state.origin = origin
+        else:
+            origin = origin_choice
+            st.session_state.origin = origin
 
     with c2:
         st.markdown("**Going to**")
-        destination_suggestions = [
-            "Istanbul, Turkey", "Dubai, UAE", "London, UK", "Paris, France",
-            "Rome, Italy", "Baku, Azerbaijan", "Bangkok, Thailand",
-            "Kuala Lumpur, Malaysia", "Doha, Qatar", "Singapore",
-            "Tokyo, Japan", "New York, USA", "Barcelona, Spain", "Cairo, Egypt"
-        ]
-        if "destination" not in st.session_state:
-            st.session_state.destination = "Istanbul, Turkey"
-
-        destination = st.text_input(
-            "Destination location",
-            key="destination",
-            placeholder="Type any city or country, e.g. India",
+        destination_options = destination_suggestions + [LOCATION_CUSTOM]
+        destination_default = st.session_state.get("destination", "Istanbul, Turkey")
+        destination_index = destination_options.index(destination_default) if destination_default in destination_options else len(destination_options) - 1
+        destination_choice = st.selectbox(
+            "Destination suggestions",
+            destination_options,
+            index=destination_index,
+            key="destination_choice",
             label_visibility="collapsed",
-        ).strip()
+        )
 
-        st.caption("Suggestions — click one or type your own:")
-        destination_cols = st.columns(3)
-        for i, suggestion in enumerate(destination_suggestions):
-            destination_cols[i % 3].button(
-                suggestion,
-                key=f"destination_suggestion_{i}",
-                use_container_width=True,
-                on_click=set_destination,
-                args=(suggestion,),
-            )
+        if destination_choice == LOCATION_CUSTOM:
+            destination = st.text_input(
+                "Custom destination",
+                value=st.session_state.get("destination_custom", ""),
+                key="destination_custom",
+                placeholder="Type any city or country, e.g. India",
+            ).strip()
+            st.session_state.destination = destination
+        else:
+            destination = destination_choice
+            st.session_state.destination = destination
 
     c1, c2, c3 = st.columns(3)
     with c1:
